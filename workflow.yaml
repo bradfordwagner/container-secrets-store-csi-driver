@@ -49,9 +49,9 @@ spec:
               # image from: https://console.cloud.google.com/gcr/images/k8s-artifacts-prod/us/build-image/debian-base
               FROM registry.k8s.io/build-image/debian-base:bullseye-v1.4.3
               COPY --from=builder /secrets-store-csi /secrets-store-csi
-              # RUN apt update && \
-              #   apt upgrade -y && \
-              #   clean-install ca-certificates mount
+              RUN apt update && \
+                apt upgrade -y && \
+                clean-install ca-certificates mount
         templateRef:
           name: flavor-custom-dockerfile-template
           template: "{{ inputs.parameters.git_ref_type }}"
