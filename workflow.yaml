@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: secrets-store-csi-driver-image
+  generateName: secrets-store-csi-driver-image-
 spec:
   podGC:
     strategy: OnPodSuccess # delete pods when workflow is successful
@@ -19,9 +19,7 @@ spec:
       - name: git_ref_type
       - name: upstream_repo
         value: registry.k8s.io/csi-secrets-store/driver
-        # value: quay.io/bradfordwagner/base
       - name: upstream_tag
-        # value: 2.4.1
         value: v1.3.1
       - name: repo_name
         value: quay.io/bradfordwagner/secrets-store-csi-driver
@@ -38,17 +36,14 @@ spec:
             value: "{{ inputs.parameters.upstream_repo }}"
           - name: upstream_tag
             value: "{{ inputs.parameters.upstream_tag }}"
-            # value: "{{ inputs.parameters.upstream_tag }}-{{ item.platform }}"
           - name: tag_suffix # forms git_version-platform
             value: ""
-            # value: "-{{ item.platform }}"
           - name: repo_name
             value: "{{ inputs.parameters.repo_name }}"
           - name: runtime_platforms
             value: "{{ item.runtime_platforms }}"
           - name: platform
             value: ""
-            # value: "{{ item.platform }}"
           - name: dockerfile
             value: |
               # image from: https://console.cloud.google.com/gcr/images/k8s-artifacts-prod/us/build-image/debian-base
@@ -62,4 +57,3 @@ spec:
           template: "{{ inputs.parameters.git_ref_type }}"
         withItems:
         - { runtime_platforms: [linux/amd64] }
-        # - { runtime_platforms: [linux/arm64,linux/amd64] }
